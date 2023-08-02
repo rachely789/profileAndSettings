@@ -1,13 +1,13 @@
 //
-//  ContentView.swift
+//  ProfileView.swift
 //  profileAndSettings
 //
-//  Created by Rachel Yoon on 8/1/23.
+//  Created by Rachel Yoon on 8/2/23.
 //
 
 import SwiftUI
 
-struct ContentView: View {
+struct ProfileView: View {
     
     private let gridItems: [GridItem] = [
         .init(.flexible(), spacing: 1),
@@ -145,13 +145,10 @@ struct ContentView: View {
 //Spacer for everything
             Spacer()
     }
-
 }
-    
-    
-struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            ContentView()
+
+struct ProfileView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfileView()
     }
 }
-
