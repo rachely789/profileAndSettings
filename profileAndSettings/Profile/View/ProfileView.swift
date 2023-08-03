@@ -9,6 +9,10 @@ import SwiftUI
 
 struct ProfileView: View {
     
+    let user: User
+    @State private var showEditProfile = false
+    @State private var showAccomplishments = true
+    
     private let gridItems: [GridItem] = [
         .init(.flexible(), spacing: 1),
         .init(.flexible(), spacing: 1),
@@ -21,24 +25,33 @@ struct ProfileView: View {
             VStack {
                 //Name and Pronouns
                 HStack {
-                    Image("DefaultPFP")
-                        .resizable(capInsets: EdgeInsets(), resizingMode: .stretch)
-                        .aspectRatio(contentMode: .fit)
-                        .padding(.trailing, 20.0)
+                    Image(user.profileImageUrl ?? "")
+                        .resizable()
+                        .scaledToFill()
                         .frame(width: 100.0, height: 100.0)
+                        .clipShape(Circle())
+                    
                     
                     VStack {
-                        Text("Name")
-                            .font(.headline)
-                            .multilineTextAlignment(.leading)
-                        Text("Pronouns")
-                            .multilineTextAlignment(.leading)
+                        if let fullname = user.fullname {
+                            Text(fullname)
+                                .font(.headline)
+                                .fontWeight(.semibold)
+                        }
+                        
+                        if let bio = user.bio {
+                            Text(bio)
+                                .font(.footnote)
+                        }
+                        
                     }
+                    .frame(alignment: .leading)
+                    .padding(.horizontal)
                     
                     Spacer()
                     
                     Button(action: {
-                        
+                        showEditProfile.toggle()
                     }) {
                         Text("Edit")
                             .foregroundColor(Color.black)
@@ -119,36 +132,42 @@ struct ProfileView: View {
                 .padding(.bottom, 50.0)
                 
                 //Accomplishments scroll page
-                HStack {
-                    Text("Accomplishments")
-                        .font(.headline)
-                        .multilineTextAlignment(.leading)
-                    Spacer()
-                }
-                .padding(.horizontal, 50.0)
-            }
-            
-            //Accomplishment gridview
-            
-            LazyVGrid(columns: gridItems) {
-                ForEach(0 ... 15, id: \.self) {index in
-                    Image("mathhw")
-                        .resizable()
-                        .frame(width: 123.0, height: 123.0)
-                        .scaledToFill()
+                
+                if showAccomplishments {
+                    HStack {
+                        Text("Accomplishments")
+                            .font(.headline)
+                            .multilineTextAlignment(.leading)
+                        Spacer()
+                    }
+                    .padding(.horizontal, 50.0)
+                    
+                    
+                    //Accomplishment gridview
+                    
+                    LazyVGrid(columns: gridItems) {
+                        ForEach(0 ... 15, id: \.self) {index in
+                            Image("mathhw")
+                                .resizable()
+                                .frame(width: 123.0, height: 123.0)
+                                .scaledToFill()
+                        }
+                    }
                 }
                 
-                
             }
+            
+            
+            .fullScreenCover(isPresented:  $showEditProfile) {
+                EditProfileView(user: user)
+            }
+            
         }
-        
-//Spacer for everything
-            Spacer()
     }
-}
-
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView()
+    
+    struct ProfileView_Previews: PreviewProvider {
+        static var previews: some View {
+            ProfileView(user: User.MOCK_USERS[0])
+        }
     }
 }
