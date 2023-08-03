@@ -11,7 +11,7 @@ import PhotosUI
 struct EditProfileView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject var viewModel: EditProfileViewModel
-    @State private var showAccomplishments = true
+    @State private var showAccomplishments = false
     
     init(user: User) {
         self._viewModel = StateObject(wrappedValue: EditProfileViewModel(user: user))
@@ -76,6 +76,7 @@ struct EditProfileView: View {
             .padding(.vertical, 8)
             
             // edit name
+            
             
             VStack {
                 EditProfileRowView(title: "Name", placeholder: "Enter your name", text: $viewModel.fullname)

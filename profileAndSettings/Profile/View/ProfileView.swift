@@ -12,7 +12,7 @@ struct ProfileView: View {
     let user: User
     @State private var showEditProfile = false
     @State private var showAccomplishments = true
-    
+
     private let gridItems: [GridItem] = [
         .init(.flexible(), spacing: 1),
         .init(.flexible(), spacing: 1),
